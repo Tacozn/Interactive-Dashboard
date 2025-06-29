@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 from dash_iconify import DashIconify
 import base64
 import io
+import os
 
 # --- GOOGLE FONTS (Inter) ---
 FONT_URL = "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
@@ -594,7 +595,17 @@ def update_dashboard(start_date, end_date, n_clicks_data, n_clicks_summary, sele
 # Error handling for running the app
 if __name__ == '__main__':
     try:
-        app.run(debug=True, host='127.0.0.1', port=8050)
+        # Get port from environment variable (for Render/Heroku) or use default
+        port = int(os.environ.get('PORT', 8050))
+        # For local development and deployment
+        app.run(debug=False, host='0.0.0.0', port=port)
     except Exception as e:
         print(f"Error running app: {e}")
         print("Make sure port 8050 is available or change the port number.")
+        # Try alternative port if 8050 is busy
+        try:
+            print("Trying port 8080...")
+            app.run(debug=False, host='0.0.0.0', port=8080)
+        except Exception as e2:
+            print(f"Error on port 8080: {e2}")
+            print("Please check if any other application is using these ports.")
