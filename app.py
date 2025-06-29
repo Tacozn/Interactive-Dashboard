@@ -57,7 +57,8 @@ def load_data(filepath):
         return None
 
 # Load data
-df = load_data("C:/Users/carro/OneDrive/Desktop/final info vis/electric_dataset.csv")
+df = load_data("electric_dataset.csv")
+
 
 if df is None:
     print("Failed to load data. Please check the file path and format.")
